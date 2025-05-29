@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import api, { User, EditUserArgs } from '../../services/api';
+import { usersApi, User, EditUserArgs } from '../../services/usersApi';
 import UserForm from './UserForm';
 
 type SortField = 'name' | 'role';
@@ -22,11 +22,11 @@ const UsersOverview = () => {
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['users'],
-    queryFn: api.users.getAll,
+    queryFn: usersApi.getAll,
   });
 
   const createMutation = useMutation({
-    mutationFn: (newUser: EditUserArgs) => api.users.create(newUser),
+    mutationFn: (newUser: EditUserArgs) => usersApi.create(newUser),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setIsCreateModalOpen(false);
@@ -34,7 +34,7 @@ const UsersOverview = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) => api.users.update(id, user),
+    mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) => usersApi.update(id, user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setEditingUser(null);
@@ -42,7 +42,7 @@ const UsersOverview = () => {
   });
 
   const deleteMutation = useMutation({
-    mutationFn: (id: number) => api.users.delete(id),
+    mutationFn: (id: number) => usersApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
     },

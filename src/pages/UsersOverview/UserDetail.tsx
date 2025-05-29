@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import api from '../../services/api';
+import { usersApi } from '../../services/usersApi';
 
 const UserDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -10,7 +10,7 @@ const UserDetail = () => {
     error,
   } = useQuery({
     queryKey: ['user', id],
-    queryFn: () => api.users.getById(Number(id)),
+    queryFn: () => usersApi.getById(Number(id)),
     enabled: !!id,
   });
 

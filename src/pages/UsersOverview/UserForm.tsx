@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { User, EditUserArgs } from '../../services/api';
+import { User, EditUserArgs } from '../../services/usersApi';
 import { Spinner } from '../../components/Spinner';
 
 interface UserFormProps {
