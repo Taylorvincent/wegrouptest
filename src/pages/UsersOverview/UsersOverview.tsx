@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { usersApi, User, EditUserArgs } from '../../services/usersApi';
 import UserForm from './UserForm';
 import { useLocalStorage } from '../../utils/useLocalStorage';
+import { DeleteConfirmationModal } from '../../components/DeleteConfirmationModal';
 
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
@@ -14,6 +15,7 @@ const UsersOverview = () => {
   const queryClient = useQueryClient();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [deletingUser, setDeletingUser] = useState<User | null>(null);
   const [sortField, setSortField] = useLocalStorage<SortField>('sortField', 'name');
   const [sortOrder, setSortOrder] = useLocalStorage<SortOrder>('sortOrder', 'asc');
 
@@ -42,6 +44,7 @@ const UsersOverview = () => {
     mutationFn: (id: number) => usersApi.delete(id),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey });
+      setDeletingUser(null);
     },
   });
 
@@ -126,13 +129,8 @@ const UsersOverview = () => {
                     Edit
                   </button>
                   <button
-                    onClick={() => {
-                      if (window.confirm('Are you sure you want to delete this user?')) {
-                        deleteMutation.mutate(user.id);
-                      }
-                    }}
-                    className="text-red-600 hover:text-red-900 disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled={deleteMutation.isPending && deleteMutation.variables === user.id}
+                    onClick={() => setDeletingUser(user)}
+                    className="text-red-600 hover:text-red-900"
                   >
                     Delete
                   </button>
@@ -160,6 +158,16 @@ const UsersOverview = () => {
             setEditingUser(null);
           }}
           isSubmitting={editingUser ? updateMutation.isPending : createMutation.isPending}
+        />
+      )}
+
+      {deletingUser && (
+        <DeleteConfirmationModal
+          title="Delete User"
+          message={`Are you sure you want to delete ${deletingUser.name}? This action cannot be undone.`}
+          onConfirm={() => deleteMutation.mutate(deletingUser.id)}
+          onClose={() => setDeletingUser(null)}
+          isDeleting={deleteMutation.isPending}
         />
       )}
     </div>
