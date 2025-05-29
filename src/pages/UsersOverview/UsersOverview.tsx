@@ -34,7 +34,7 @@ const UsersOverview = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, user }: { id: number; user: Partial<EditUserArgs> }) =>
+    mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) =>
       api.users.update(id, user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
@@ -158,6 +158,7 @@ const UsersOverview = () => {
             setIsCreateModalOpen(false);
             setEditingUser(null);
           }}
+          isSubmitting={editingUser ? updateMutation.isPending : createMutation.isPending}
         />
       )}
     </div>

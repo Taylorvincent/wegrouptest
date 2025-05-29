@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { User, EditUserArgs } from '../../services/api';
+import { Spinner } from '../../components/Spinner';
 
 interface UserFormProps {
   user: User | null;
   onSubmit: (data: EditUserArgs) => void;
   onClose: () => void;
+  isSubmitting?: boolean;
 }
 
-const UserForm = ({ user, onSubmit, onClose }: UserFormProps) => {
+const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormProps) => {
   const [formData, setFormData] = useState<EditUserArgs>({
     name: '',
     email: '',
@@ -48,6 +50,7 @@ const UserForm = ({ user, onSubmit, onClose }: UserFormProps) => {
                 onChange={e => setFormData({ ...formData, name: e.target.value })}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -62,6 +65,7 @@ const UserForm = ({ user, onSubmit, onClose }: UserFormProps) => {
                 onChange={e => setFormData({ ...formData, email: e.target.value })}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
+                disabled={isSubmitting}
               />
             </div>
 
@@ -75,6 +79,7 @@ const UserForm = ({ user, onSubmit, onClose }: UserFormProps) => {
                 onChange={e => setFormData({ ...formData, role: e.target.value })}
                 className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
                 required
+                disabled={isSubmitting}
               >
                 <option value="">Select a role</option>
                 <option value="Admin">Admin</option>
@@ -87,14 +92,22 @@ const UserForm = ({ user, onSubmit, onClose }: UserFormProps) => {
                 type="button"
                 onClick={onClose}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                disabled={isSubmitting}
               >
                 Cancel
               </button>
               <button
                 type="submit"
-                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700"
+                className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={isSubmitting}
               >
-                {user ? 'Save Changes' : 'Create User'}
+                {isSubmitting ? (
+                  <Spinner label={user ? 'Saving...' : 'Creating...'} />
+                ) : user ? (
+                  'Save Changes'
+                ) : (
+                  'Create User'
+                )}
               </button>
             </div>
           </form>
