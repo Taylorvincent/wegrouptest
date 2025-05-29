@@ -145,6 +145,8 @@ const UsersOverview = () => {
 
       {(isCreateModalOpen || editingUser) && (
         <UserForm
+          /** Key to ensure resetting state when rendering */
+          key={editingUser?.id}
           user={editingUser}
           onSubmit={userData => {
             if (editingUser) {

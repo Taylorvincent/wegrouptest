@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { User, EditUserArgs } from '../../services/usersApi';
 import { Spinner } from '../../components/Spinner';
 
@@ -10,21 +10,7 @@ interface UserFormProps {
 }
 
 const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormProps) => {
-  const [formData, setFormData] = useState<EditUserArgs>({
-    name: '',
-    email: '',
-    role: '',
-  });
-
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      });
-    }
-  }, [user]);
+  const [formData, setFormData] = useState<EditUserArgs>(user ?? { name: '', email: '', role: '' });
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
