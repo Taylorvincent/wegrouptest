@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { User, EditUserArgs } from '../../services/usersApi';
-import { Spinner } from '../../components/Spinner';
 import { Modal } from '../../components/Modal';
+import { Button } from '../../components/Button';
+import { FormInput } from '../../components/FormInput';
+import { Select } from '../../components/Select';
 
 interface UserFormProps {
   user: User | null;
@@ -10,22 +12,15 @@ interface UserFormProps {
   isSubmitting?: boolean;
 }
 
-const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormProps) => {
-  const [formData, setFormData] = useState<EditUserArgs>({
-    name: '',
-    email: '',
-    role: '',
-  });
+const roleOptions = [
+  { value: 'Admin', label: 'Admin' },
+  { value: 'User', label: 'User' },
+];
 
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        name: user.name,
-        email: user.email,
-        role: user.role,
-      });
-    }
-  }, [user]);
+const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormProps) => {
+  const [formData, setFormData] = useState<EditUserArgs>(
+    user ?? { name: '', email: '', role: 'User' }
+  );
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -35,76 +30,40 @@ const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormPro
   return (
     <Modal title={user ? 'Edit User' : 'Create User'} onClose={onClose}>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            value={formData.name}
-            onChange={e => setFormData({ ...formData, name: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            value={formData.email}
-            onChange={e => setFormData({ ...formData, email: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-            disabled={isSubmitting}
-          />
-        </div>
-
-        <div className="mb-4">
-          <label htmlFor="role" className="block text-sm font-medium text-gray-700">
-            Role
-          </label>
-          <select
-            id="role"
-            value={formData.role}
-            onChange={e => setFormData({ ...formData, role: e.target.value })}
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            required
-            disabled={isSubmitting}
-          >
-            <option value="">Select a role</option>
-            <option value="Admin">Admin</option>
-            <option value="User">User</option>
-          </select>
-        </div>
-
+        <FormInput
+          id="name"
+          label="Name"
+          type="text"
+          value={formData.name}
+          onChange={e => setFormData({ ...formData, name: e.target.value })}
+          required
+          disabled={isSubmitting}
+        />
+        <FormInput
+          id="email"
+          label="Email"
+          type="email"
+          value={formData.email}
+          onChange={e => setFormData({ ...formData, email: e.target.value })}
+          required
+          disabled={isSubmitting}
+        />
+        <Select
+          id="role"
+          label="Role"
+          value={formData.role}
+          onChange={e => setFormData({ ...formData, role: e.target.value })}
+          options={roleOptions}
+          required
+          disabled={isSubmitting}
+        />
         <div className="mt-5 flex justify-end gap-2">
-          <button
-            type="button"
-            onClick={onClose}
-            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
-            disabled={isSubmitting}
-          >
+          <Button type="button" variant="secondary" onClick={onClose} disabled={isSubmitting}>
             Cancel
-          </button>
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <Spinner label={user ? 'Saving...' : 'Creating...'} />
-            ) : user ? (
-              'Save Changes'
-            ) : (
-              'Create User'
-            )}
-          </button>
+          </Button>
+          <Button type="submit" variant="primary" isLoading={isSubmitting} disabled={isSubmitting}>
+            {user ? 'Save Changes' : 'Create User'}
+          </Button>
         </div>
       </form>
     </Modal>
