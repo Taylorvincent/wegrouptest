@@ -34,8 +34,7 @@ const UsersOverview = () => {
   });
 
   const updateMutation = useMutation({
-    mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) =>
-      api.users.update(id, user),
+    mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) => api.users.update(id, user),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['users'] });
       setEditingUser(null);
@@ -133,7 +132,8 @@ const UsersOverview = () => {
                         deleteMutation.mutate(user.id);
                       }
                     }}
-                    className="text-red-600 hover:text-red-900"
+                    className="text-red-600 hover:text-red-900 disabled:opacity-50 disabled:cursor-not-allowed"
+                    disabled={deleteMutation.isPending && deleteMutation.variables === user.id}
                   >
                     Delete
                   </button>
