@@ -45,6 +45,10 @@ const UsersOverview = () => {
     },
   });
 
+  /**
+   * Toggles the sort order between 'asc' and 'desc' if the same field is selected,
+   * otherwise sets the sort order to 'asc' for a new field.
+   */
   const handleSort = (field: SortField) => {
     const newOrder = field === sortField && sortOrder === 'asc' ? 'desc' : 'asc';
     setSortField(field);
