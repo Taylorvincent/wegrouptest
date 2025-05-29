@@ -7,5 +7,6 @@ export default defineConfig({
     watch: {
       ignored: ['**/server/db.json'],
     },
+    port: 3000,
   },
 })
