@@ -8,6 +8,8 @@ import { useLocalStorage } from '../../utils/useLocalStorage';
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
 
+const queryKey = ['users'];
+
 const UsersOverview = () => {
   const queryClient = useQueryClient();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -16,14 +18,14 @@ const UsersOverview = () => {
   const [sortOrder, setSortOrder] = useLocalStorage<SortOrder>('sortOrder', 'asc');
 
   const { data: users = [], isLoading } = useQuery({
-    queryKey: ['users'],
+    queryKey,
     queryFn: usersApi.getAll,
   });
 
   const createMutation = useMutation({
     mutationFn: (newUser: EditUserArgs) => usersApi.create(newUser),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey });
       setIsCreateModalOpen(false);
     },
   });
@@ -31,7 +33,7 @@ const UsersOverview = () => {
   const updateMutation = useMutation({
     mutationFn: ({ id, user }: { id: number; user: EditUserArgs }) => usersApi.update(id, user),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey });
       setEditingUser(null);
     },
   });
@@ -39,7 +41,7 @@ const UsersOverview = () => {
   const deleteMutation = useMutation({
     mutationFn: (id: number) => usersApi.delete(id),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['users'] });
+      queryClient.invalidateQueries({ queryKey });
     },
   });
 
