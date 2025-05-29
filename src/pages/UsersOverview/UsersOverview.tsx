@@ -3,6 +3,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { usersApi, User, EditUserArgs } from '../../services/usersApi';
 import UserForm from './UserForm';
+import { useLocalStorage } from '../../utils/useLocalStorage';
 
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
@@ -11,14 +12,8 @@ const UsersOverview = () => {
   const queryClient = useQueryClient();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
-  const [sortField, setSortField] = useState<SortField>(() => {
-    const saved = localStorage.getItem('sortField');
-    return (saved as SortField) || 'name';
-  });
-  const [sortOrder, setSortOrder] = useState<SortOrder>(() => {
-    const saved = localStorage.getItem('sortOrder');
-    return (saved as SortOrder) || 'asc';
-  });
+  const [sortField, setSortField] = useLocalStorage<SortField>('sortField', 'name');
+  const [sortOrder, setSortOrder] = useLocalStorage<SortOrder>('sortOrder', 'asc');
 
   const { data: users = [], isLoading } = useQuery({
     queryKey: ['users'],
@@ -52,8 +47,6 @@ const UsersOverview = () => {
     const newOrder = field === sortField && sortOrder === 'asc' ? 'desc' : 'asc';
     setSortField(field);
     setSortOrder(newOrder);
-    localStorage.setItem('sortField', field);
-    localStorage.setItem('sortOrder', newOrder);
   };
 
   const sortedUsers = [...users].sort((a, b) => {
