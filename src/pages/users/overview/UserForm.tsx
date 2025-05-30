@@ -17,13 +17,36 @@ const roleOptions = [
   { value: 'User', label: 'User' },
 ];
 
+const validateEmail = (email: string) => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+};
+
 const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormProps) => {
   const [formData, setFormData] = useState<EditUserArgs>(
     user ?? { name: '', email: '', role: 'User' }
   );
+  const [errors, setErrors] = useState<{ email?: string }>({});
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const email = e.target.value;
+    setFormData({ ...formData, email });
+
+    if (email && !validateEmail(email)) {
+      setErrors({ ...errors, email: 'Please enter a valid email address' });
+    } else {
+      setErrors({ ...errors, email: undefined });
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateEmail(formData.email)) {
+      setErrors({ ...errors, email: 'Please enter a valid email address' });
+      return;
+    }
+
     onSubmit(formData);
   };
 
@@ -44,7 +67,8 @@ const UserForm = ({ user, onSubmit, onClose, isSubmitting = false }: UserFormPro
           label="Email"
           type="email"
           value={formData.email}
-          onChange={e => setFormData({ ...formData, email: e.target.value })}
+          onChange={handleEmailChange}
+          error={errors.email}
           required
           disabled={isSubmitting}
         />
