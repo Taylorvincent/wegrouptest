@@ -7,12 +7,14 @@ export interface User {
   name: string;
   email: string;
   role: string;
+  profilePicture?: string | null;
 }
 
 export interface EditUserArgs {
   name: string;
   email: string;
   role: string;
+  profilePicture?: string | null;
 }
 
 export const usersApi = {
