@@ -1,10 +1,11 @@
+import { ReactNode } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { usersApi } from '../../services/usersApi';
-import { Avatar } from '../../components/Avatar';
-import { Badge } from '../../components/Badge';
 import { Icons } from '../../components/Icons';
 import { Card, CardBody } from '../../components/Card';
+import { Avatar } from '../../components/Avatar';
+import { Badge } from '../../components/Badge';
 
 const UserDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -61,36 +62,17 @@ const UserDetail = () => {
         <div className="h-32 bg-gradient-to-r from-blue-500 to-blue-600 rounded-t-2xl" />
 
         <CardBody className="px-6 pb-6">
-          {/* Avatar Section */}
-          <div className="flex flex-col items-center -mt-16 mb-6">
-            <div className="ring-4 ring-white rounded-full shadow-lg">
-              <Avatar src={user.profilePicture} alt={user.name} size="xl" />
-            </div>
-            <h1 className="mt-4 text-2xl font-bold text-gray-900">{user.name}</h1>
-            <Badge variant="primary" className="mt-2">
-              {user.role}
-            </Badge>
-          </div>
+          <ProfileHeader name={user.name} role={user.role} profilePicture={user.profilePicture} />
 
           {/* Details Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Email Section */}
-            <div className="bg-gray-50 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Icons.Email className="w-5 h-5 text-gray-500" />
-                <span className="text-sm font-medium text-gray-600">Email</span>
-              </div>
-              <p className="text-gray-900">{user.email}</p>
-            </div>
+            <InfoCard icon={<Icons.Email className="w-5 h-5" />} label="Email">
+              {user.email}
+            </InfoCard>
 
-            {/* ID Section */}
-            <div className="bg-gray-50 rounded-xl p-4">
-              <div className="flex items-center gap-3 mb-2">
-                <Icons.IdBadge className="w-5 h-5 text-gray-500" />
-                <span className="text-sm font-medium text-gray-600">User ID</span>
-              </div>
-              <p className="text-gray-900">#{user.id}</p>
-            </div>
+            <InfoCard icon={<Icons.IdBadge className="w-5 h-5" />} label="User ID">
+              #{user.id}
+            </InfoCard>
           </div>
         </CardBody>
       </Card>
@@ -99,3 +81,41 @@ const UserDetail = () => {
 };
 
 export default UserDetail;
+
+interface InfoCardProps {
+  icon: ReactNode;
+  label: string;
+  children: ReactNode;
+}
+
+const InfoCard = ({ icon, label, children }: InfoCardProps) => {
+  return (
+    <div className="bg-gray-50 rounded-xl p-4">
+      <div className="flex items-center gap-3 mb-2">
+        <div className="text-gray-500">{icon}</div>
+        <span className="text-sm font-medium text-gray-600">{label}</span>
+      </div>
+      <div className="text-gray-900">{children}</div>
+    </div>
+  );
+};
+
+interface ProfileHeaderProps {
+  name: string;
+  role: string;
+  profilePicture?: string | null;
+}
+
+const ProfileHeader = ({ name, role, profilePicture }: ProfileHeaderProps) => {
+  return (
+    <div className="flex flex-col items-center -mt-16 mb-6">
+      <div className="ring-4 ring-white rounded-full shadow-lg">
+        <Avatar src={profilePicture} alt={name} size="xl" />
+      </div>
+      <h1 className="mt-4 text-2xl font-bold text-gray-900">{name}</h1>
+      <Badge variant="primary" className="mt-2">
+        {role}
+      </Badge>
+    </div>
+  );
+};
