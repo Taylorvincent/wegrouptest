@@ -6,6 +6,9 @@ import UserForm from './UserForm';
 import { useLocalStorage } from '../../utils/useLocalStorage';
 import { DeleteConfirmationModal } from '../../components/DeleteConfirmationModal';
 import { Button } from '../../components/Button';
+import { Card, CardHeader, CardBody } from '../../components/Card';
+import { Badge } from '../../components/Badge';
+import { TableHeader } from '../../components/TableHeader';
 
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
@@ -73,96 +76,76 @@ const UsersOverview = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200">
-      <div className="px-6 py-5 sm:px-8 border-b border-gray-100">
+    <Card>
+      <CardHeader>
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900">Users Overview</h1>
           <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
             Add User
           </Button>
         </div>
-      </div>
+      </CardHeader>
 
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead>
-            <tr className="bg-gray-50/50">
-              <th
-                scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:text-gray-900 transition-colors duration-200"
-                onClick={() => handleSort('name')}
-              >
-                <div className="flex items-center gap-2">
+      <CardBody>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead>
+              <tr className="bg-gray-50/50">
+                <TableHeader
+                  onClick={() => handleSort('name')}
+                  sortActive={sortField === 'name'}
+                  sortDirection={sortOrder}
+                >
                   Name
-                  {sortField === 'name' && (
-                    <span className="text-blue-600">{sortOrder === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </div>
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-              >
-                Email
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider cursor-pointer hover:text-gray-900 transition-colors duration-200"
-                onClick={() => handleSort('role')}
-              >
-                <div className="flex items-center gap-2">
+                </TableHeader>
+                <TableHeader>Email</TableHeader>
+                <TableHeader
+                  onClick={() => handleSort('role')}
+                  sortActive={sortField === 'role'}
+                  sortDirection={sortOrder}
+                >
                   Role
-                  {sortField === 'role' && (
-                    <span className="text-blue-600">{sortOrder === 'asc' ? '↑' : '↓'}</span>
-                  )}
-                </div>
-              </th>
-              <th
-                scope="col"
-                className="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider"
-              >
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200">
-            {sortedUsers.map(user => (
-              <tr key={user.id} className="hover:bg-gray-50/50 transition-colors duration-200">
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <Link
-                    to={`/users/${user.id}`}
-                    className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
-                  >
-                    {user.name}
-                  </Link>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-gray-600">{user.email}</td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                    {user.role}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                  <div className="flex items-center gap-4">
-                    <button
-                      onClick={() => setEditingUser(user)}
-                      className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200"
-                    >
-                      Edit
-                    </button>
-                    <button
-                      onClick={() => setDeletingUser(user)}
-                      className="text-red-600 hover:text-red-900 transition-colors duration-200"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
+                </TableHeader>
+                <TableHeader>Actions</TableHeader>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {sortedUsers.map(user => (
+                <tr key={user.id} className="hover:bg-gray-50/50 transition-colors duration-200">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Link
+                      to={`/users/${user.id}`}
+                      className="text-blue-600 hover:text-blue-800 font-medium transition-colors duration-200"
+                    >
+                      {user.name}
+                    </Link>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-gray-600">{user.email}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <Badge variant="primary">{user.role}</Badge>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <div className="flex items-center gap-4">
+                      <button
+                        onClick={() => setEditingUser(user)}
+                        className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        onClick={() => setDeletingUser(user)}
+                        className="text-red-600 hover:text-red-900 transition-colors duration-200"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </CardBody>
 
       {(isCreateModalOpen || editingUser) && (
         <UserForm
@@ -193,7 +176,7 @@ const UsersOverview = () => {
           isDeleting={deleteMutation.isPending}
         />
       )}
-    </div>
+    </Card>
   );
 };
 
