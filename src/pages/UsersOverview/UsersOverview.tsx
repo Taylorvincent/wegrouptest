@@ -172,8 +172,12 @@ const UsersOverview = () => {
           title="Delete User"
           message={`Are you sure you want to delete ${deletingUser.name}? This action cannot be undone.`}
           onConfirm={() => deleteMutation.mutate(deletingUser.id)}
-          onClose={() => setDeletingUser(null)}
+          onClose={() => {
+            setDeletingUser(null);
+            deleteMutation.reset();
+          }}
           isDeleting={deleteMutation.isPending}
+          error={deleteMutation.error}
         />
       )}
     </Card>

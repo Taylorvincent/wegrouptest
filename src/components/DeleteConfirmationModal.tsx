@@ -1,5 +1,6 @@
 import { Modal } from './Modal';
 import { Button } from './Button';
+import { Alert } from './Alert';
 
 interface DeleteConfirmationModalProps {
   title: string;
@@ -7,6 +8,7 @@ interface DeleteConfirmationModalProps {
   onConfirm: () => void;
   onClose: () => void;
   isDeleting: boolean;
+  error?: Error | null;
 }
 
 export const DeleteConfirmationModal = ({
@@ -15,11 +17,13 @@ export const DeleteConfirmationModal = ({
   onConfirm,
   onClose,
   isDeleting,
+  error,
 }: DeleteConfirmationModalProps) => {
   return (
     <Modal title={title} onClose={onClose}>
-      <div className="mt-2">
+      <div className="mt-2 space-y-2">
         <p className="text-sm text-gray-500">{message}</p>
+        {error && <Alert variant="error">{error.message || 'An unexpected error occurred'}</Alert>}
       </div>
 
       <div className="mt-5 flex justify-end gap-2">
