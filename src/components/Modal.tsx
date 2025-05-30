@@ -6,7 +6,7 @@ interface ModalProps {
   onClose?: () => void;
 }
 
-export function Modal({ children, title, onClose }: ModalProps) {
+export const Modal = ({ children, title, onClose }: ModalProps) => {
   const handleClickOutside = useCallback(
     (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -47,4 +47,4 @@ export function Modal({ children, title, onClose }: ModalProps) {
       </div>
     </div>
   );
-}
+};

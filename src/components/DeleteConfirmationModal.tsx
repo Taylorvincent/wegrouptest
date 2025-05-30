@@ -9,13 +9,13 @@ interface DeleteConfirmationModalProps {
   isDeleting: boolean;
 }
 
-export function DeleteConfirmationModal({
+export const DeleteConfirmationModal = ({
   title,
   message,
   onConfirm,
   onClose,
   isDeleting,
-}: DeleteConfirmationModalProps) {
+}: DeleteConfirmationModalProps) => {
   return (
     <Modal title={title} onClose={onClose}>
       <div className="mt-2">
@@ -32,4 +32,4 @@ export function DeleteConfirmationModal({
       </div>
     </Modal>
   );
-}
+};

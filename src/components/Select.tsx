@@ -11,7 +11,7 @@ interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'cla
   error?: string;
 }
 
-export function Select({ label, options, error, id, ...props }: SelectProps) {
+export const Select = ({ label, options, error, id, ...props }: SelectProps) => {
   return (
     <div className="mb-4">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -32,4 +32,4 @@ export function Select({ label, options, error, id, ...props }: SelectProps) {
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   );
-}
+};

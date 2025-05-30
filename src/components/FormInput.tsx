@@ -5,7 +5,7 @@ interface FormInputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'cl
   error?: string;
 }
 
-export function FormInput({ label, error, id, ...props }: FormInputProps) {
+export const FormInput = ({ label, error, id, ...props }: FormInputProps) => {
   return (
     <div className="mb-4">
       <label htmlFor={id} className="block text-sm font-medium text-gray-700">
@@ -19,4 +19,4 @@ export function FormInput({ label, error, id, ...props }: FormInputProps) {
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   );
-}
+};
