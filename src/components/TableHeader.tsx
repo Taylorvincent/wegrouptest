@@ -20,6 +20,7 @@ export const TableHeader = ({
   const cursorStyles = onClick
     ? 'cursor-pointer hover:text-gray-900 transition-colors duration-200'
     : '';
+
   return (
     <th scope="col" className={`${baseStyles} ${cursorStyles} ${className}`} onClick={onClick}>
       <div className="flex items-center gap-2">

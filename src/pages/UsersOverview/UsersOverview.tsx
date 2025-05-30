@@ -9,6 +9,7 @@ import { Button } from '../../components/Button';
 import { Card, CardHeader, CardBody } from '../../components/Card';
 import { Badge } from '../../components/Badge';
 import { TableHeader } from '../../components/TableHeader';
+import { Icons } from '../../components/Icons';
 
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
@@ -81,7 +82,10 @@ const UsersOverview = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-semibold text-gray-900">Users Overview</h1>
           <Button variant="primary" onClick={() => setIsCreateModalOpen(true)}>
-            Add User
+            <span className="flex items-center gap-2">
+              <Icons.Plus className="h-4 w-4" />
+              Add User
+            </span>
           </Button>
         </div>
       </CardHeader>
@@ -128,15 +132,17 @@ const UsersOverview = () => {
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() => setEditingUser(user)}
-                        className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200"
+                        className="text-indigo-600 hover:text-indigo-900 transition-colors duration-200 flex items-center gap-1"
                       >
-                        Edit
+                        <Icons.Edit className="h-4 w-4" />
+                        <span>Edit</span>
                       </button>
                       <button
                         onClick={() => setDeletingUser(user)}
-                        className="text-red-600 hover:text-red-900 transition-colors duration-200"
+                        className="text-red-600 hover:text-red-900 transition-colors duration-200 flex items-center gap-1"
                       >
-                        Delete
+                        <Icons.Delete className="h-4 w-4" />
+                        <span>Delete</span>
                       </button>
                     </div>
                   </td>
