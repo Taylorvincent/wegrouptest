@@ -4,6 +4,7 @@ import { usersApi } from '../../services/usersApi';
 import { Avatar } from '../../components/Avatar';
 import { Badge } from '../../components/Badge';
 import { Icons } from '../../components/Icons';
+import { Card, CardBody } from '../../components/Card';
 
 const UserDetail = () => {
   const { id } = useParams<{ id: string }>();
@@ -45,7 +46,7 @@ const UserDetail = () => {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6">
         <Link
           to="/"
           className="text-gray-600 hover:text-gray-900 flex items-center gap-2 transition-colors duration-200"
@@ -55,12 +56,11 @@ const UserDetail = () => {
         </Link>
       </div>
 
-      <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
-        {/* Header Section with Background */}
-        <div className="h-32 bg-gradient-to-r from-blue-500 to-blue-600" />
+      <Card>
+        {/* Gradient Background Header */}
+        <div className="h-32 bg-gradient-to-r from-blue-500 to-blue-600 rounded-t-2xl" />
 
-        {/* Content Section */}
-        <div className="px-6 pb-6">
+        <CardBody className="px-6 pb-6">
           {/* Avatar Section */}
           <div className="flex flex-col items-center -mt-16 mb-6">
             <div className="ring-4 ring-white rounded-full shadow-lg">
@@ -92,8 +92,8 @@ const UserDetail = () => {
               <p className="text-gray-900">#{user.id}</p>
             </div>
           </div>
-        </div>
-      </div>
+        </CardBody>
+      </Card>
     </div>
   );
 };
