@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { User, EditUserArgs } from '../../services/usersApi';
-import { Modal } from '../../components/Modal';
-import { Button } from '../../components/Button';
-import { FormInput } from '../../components/FormInput';
-import { Select } from '../../components/Select';
+import { User, EditUserArgs } from '../../../services/usersApi';
+import { Modal } from '../../../components/Modal';
+import { Button } from '../../../components/Button';
+import { FormInput } from '../../../components/FormInput';
+import { Select } from '../../../components/Select';
 
 interface UserFormProps {
   user: User | null;

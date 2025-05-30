@@ -1,11 +1,11 @@
 import { useParams, Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { usersApi } from '../../services/usersApi';
-import { Icons } from '../../components/Icons';
-import { Card, CardBody } from '../../components/Card';
-import { InfoCard } from '../../components/InfoCard';
-import { ProfileHeader } from '../../components/ProfileHeader';
-import { StatusMessage } from '../../components/StatusMessage';
+import { usersApi } from '../../../services/usersApi';
+import { Icons } from '../../../components/Icons';
+import { Card, CardBody } from '../../../components/Card';
+import { InfoCard } from '../../../components/InfoCard';
+import { ProfileHeader } from '../../../components/ProfileHeader';
+import { StatusMessage } from '../../../components/StatusMessage';
 
 const UserDetail = () => {
   const { id } = useParams<{ id: string }>();

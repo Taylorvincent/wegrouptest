@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import UsersOverview from '../pages/overview/UsersOverview';
-import UserDetail from '../pages/detail/UserDetail';
+import UsersOverview from '../pages/users/overview/UsersOverview';
+import UserDetail from '../pages/users/detail/UserDetail';
 
 const queryClient = new QueryClient({
   defaultOptions: {

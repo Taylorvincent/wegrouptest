@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
-import { usersApi, User, EditUserArgs } from '../../services/usersApi';
+import { usersApi, User, EditUserArgs } from '../../../services/usersApi';
 import UserForm from './UserForm';
-import { useLocalStorage } from '../../utils/useLocalStorage';
-import { DeleteConfirmationModal } from '../../components/DeleteConfirmationModal';
-import { Button } from '../../components/Button';
-import { Card, CardHeader, CardBody } from '../../components/Card';
-import { Badge } from '../../components/Badge';
-import { TableHeader } from '../../components/TableHeader';
-import { Icons } from '../../components/Icons';
+import { useLocalStorage } from '../../../utils/useLocalStorage';
+import { DeleteConfirmationModal } from '../../../components/DeleteConfirmationModal';
+import { Button } from '../../../components/Button';
+import { Card, CardHeader, CardBody } from '../../../components/Card';
+import { Badge } from '../../../components/Badge';
+import { TableHeader } from '../../../components/TableHeader';
+import { Icons } from '../../../components/Icons';
 
 type SortField = 'name' | 'role';
 type SortOrder = 'asc' | 'desc';
